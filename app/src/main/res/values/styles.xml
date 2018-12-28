@@ -1,0 +1,140 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="NormalTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/typeNormal</item>
+        <item name="colorPrimaryDark">@color/typeNormal</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="FightingTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/typeFighting</item>
+        <item name="colorPrimaryDark">@color/typeFighting</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="FlyingTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/typeFlying</item>
+        <item name="colorPrimaryDark">@color/typeFlying</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="PoisonTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/typePoison</item>
+        <item name="colorPrimaryDark">@color/typePoison</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="GroundTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/typeGround</item>
+        <item name="colorPrimaryDark">@color/typeGround</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="RockTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/typeRock</item>
+        <item name="colorPrimaryDark">@color/typeRock</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="BugTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/typeBug</item>
+        <item name="colorPrimaryDark">@color/typeBug</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="GhostTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/typeGhost</item>
+        <item name="colorPrimaryDark">@color/typeGhost</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="SteelTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/typeSteel</item>
+        <item name="colorPrimaryDark">@color/typeSteel</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="FireTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/typeFire</item>
+        <item name="colorPrimaryDark">@color/typeFire</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="WaterTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/typeWater</item>
+        <item name="colorPrimaryDark">@color/typeWater</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="GrassTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/typeGrass</item>
+        <item name="colorPrimaryDark">@color/typeGrass</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="ElectricTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/typeElectric</item>
+        <item name="colorPrimaryDark">@color/typeElectric</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="PsychicTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/typePsychic</item>
+        <item name="colorPrimaryDark">@color/typePsychic</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="IceTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/typeIce</item>
+        <item name="colorPrimaryDark">@color/typeIce</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="DragonTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/typeDragon</item>
+        <item name="colorPrimaryDark">@color/typeDragon</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="DarkTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/typeDark</item>
+        <item name="colorPrimaryDark">@color/typeDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="FairyTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/typeFairy</item>
+        <item name="colorPrimaryDark">@color/typeFairy</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="UnknownTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/typeUnknown</item>
+        <item name="colorPrimaryDark">@color/typeUnknown</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="ShadowTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/typeFairy</item>
+        <item name="colorPrimaryDark">@color/typeFairy</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+</resources>

@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Pokédex</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_share">Share</string>
+    <string name="title_activity_pokemon_list">PokemonListActivity</string>
+    <string name="title_activity_pokemon_detail">PokemonDetailActivity</string>
+</resources>
