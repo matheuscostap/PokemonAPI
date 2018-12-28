@@ -53,15 +53,18 @@ class PokemonDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        //Extras
         pokeInfo = intent.extras.getSerializable("pokeinfo") as PokemonApiInfo
         type = intent.extras.getSerializable("type") as Type
 
+        //Tema e Toolbar
         setTheme(type.getTypeTheme())
         setContentView(R.layout.activity_pokemon_detail)
         toolbar.title = ""
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        //Referencias
         ivPokemon = findViewById(R.id.ivPokemon)
         tvPokeName = findViewById(R.id.tvPokeName)
         tvPokeType1 = findViewById(R.id.tvPokeType1)
@@ -73,16 +76,19 @@ class PokemonDetailActivity : AppCompatActivity() {
         timeoutLayout = findViewById(R.id.timeoutLayout)
         progressBar = findViewById(R.id.progressBar)
 
+        //Sets iniciais
         detailsBackground.setBackgroundColor(type.getTypeColor(applicationContext))
         Picasso.get().load(pokeInfo.imageURL).resize(150,150).into(ivPokemon)
         tvPokeName.text = pokeInfo.name.capitalize()
 
+        //Lista e adapter
         adapter = MoveListAdapter(this,moves)
         recyclerViewSkills.adapter = adapter
         val layoutManager = LinearLayoutManager(this)
         recyclerViewSkills.layoutManager = layoutManager
         recyclerViewSkills.addItemDecoration(DividerItemDecoration(recyclerViewSkills.context, DividerItemDecoration.VERTICAL))
 
+        //Progressbar
         progressBar.visibility = View.VISIBLE
 
 
@@ -105,6 +111,7 @@ class PokemonDetailActivity : AppCompatActivity() {
 
 
     fun displayContent(response: Response){
+        //Extrai as informacoes relevantes do json retornado
         val responseString = response.body()?.string() ?: "{}"
 
         val jsonResponse = JSONObject(responseString)
@@ -132,6 +139,7 @@ class PokemonDetailActivity : AppCompatActivity() {
 
         pokemon = Pokemon(pokeInfo.name.capitalize(), height.toString(), weight.toString(), moves, types)
 
+        //Seta as informacoes na interface
         runOnUiThread {
             progressBar.visibility = View.GONE
             tvPokeHeight.text = "$height cm"
@@ -152,6 +160,7 @@ class PokemonDetailActivity : AppCompatActivity() {
 
 
     fun shareContent(){
+        //Formata a string com as informacoes
         var content = pokemon.name
 
         content += "\nTipo:"
@@ -169,6 +178,7 @@ class PokemonDetailActivity : AppCompatActivity() {
 
         Log.i("Details",content)
 
+        //Abre o dialog para selecionar o app
         val intent = Intent()
         intent.action = Intent.ACTION_SEND
         intent.putExtra(Intent.EXTRA_TEXT,content)

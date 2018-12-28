@@ -37,23 +37,27 @@ class PokemonListActivity : AppCompatActivity(), AdapterView.OnItemClickListener
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        //Recebe as informacoes do tipo selecionado na tela anterior
         val preferences = getSharedPreferences("type", Context.MODE_PRIVATE)
         val typeUrl = preferences.getString("typeurl","")
         val typeName = preferences.getString("typename","")
 
         type = Type(typeName,typeUrl)
 
+        //Tema e toolbar
         setTheme(type.getTypeTheme())
         setContentView(R.layout.activity_pokemon_list)
         toolbar.title = type.name.capitalize()
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-
+        //Referencias
         progressBar = findViewById(R.id.progressBar)
         timeoutLayout = findViewById(R.id.timeoutLayout)
         gridViewPokemon = findViewById(R.id.gridViewPokemon)
         gridViewPokemon.setOnItemClickListener(this)
+
+        //Adapter
         adapter = PokemonListAdapter(this,pokeInfoArray,type)
         gridViewPokemon.adapter = adapter
 
@@ -71,11 +75,13 @@ class PokemonListActivity : AppCompatActivity(), AdapterView.OnItemClickListener
             }
 
             override fun onResponse(call: Call, response: Response) {
+                //Extrai as informacoes relevantes do json
                 val responseString = response.body()?.string() ?: "{}"
 
                 val jsonResponse = JSONObject(responseString)
                 val typesJsonArray = jsonResponse.getJSONArray("pokemon")
 
+                //Seta as informacoes na lista
                 for(i in 0..(typesJsonArray.length() - 1)){
                     val arrayObj = typesJsonArray.getJSONObject(i)
                     val pokemonObj = arrayObj.getJSONObject("pokemon")
@@ -87,6 +93,7 @@ class PokemonListActivity : AppCompatActivity(), AdapterView.OnItemClickListener
                     pokeInfoArray.add(pokeInfoObj)
                 }
 
+                //Atualiza a interface
                 runOnUiThread {
                     progressBar.visibility = View.GONE
                     adapter.notifyDataSetChanged()
@@ -99,6 +106,7 @@ class PokemonListActivity : AppCompatActivity(), AdapterView.OnItemClickListener
 
 
     fun getImageUrl(pokemonUrl : String): String{
+        //Extrai o id do pokemon da url para fazer obter a url da imagem
         val regexp = Regex("\\/(\\d+)\\/")
         val results = regexp.find(pokemonUrl)
         val id = results?.groups?.get(1)?.value ?: 0
@@ -113,6 +121,7 @@ class PokemonListActivity : AppCompatActivity(), AdapterView.OnItemClickListener
 
 
     fun getPokemonNumber(pokemonUrl: String): String{
+        //Extrai o id do pokemon para utilizar como numero da pokedex
         val regexp = Regex("\\/(\\d+)\\/")
         val results = regexp.find(pokemonUrl)
         val id = results?.groups?.get(1)?.value ?: 0

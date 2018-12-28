@@ -42,6 +42,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
+        //Referencias
         progressBar = findViewById(R.id.progressBar)
         timeoutLayout = findViewById(R.id.timeoutLayout)
         gridViewTypes = findViewById(R.id.gridViewTypes)
@@ -64,11 +65,13 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
             }
 
             override fun onResponse(call: Call, response: Response) {
+                //Extrai as informacoes relevantes do json
                 val responseString = response.body()?.string() ?: "{}"
 
                 val jsonResponse = JSONObject(responseString)
                 val typesJsonArray = jsonResponse.getJSONArray("results")
 
+                //Seta os tipos na lista
                 for(i in 0..(typesJsonArray.length() - 1)){
                     val typeJsonObj = typesJsonArray.getJSONObject(i)
                     val name = typeJsonObj.getString("name")
@@ -77,6 +80,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
                     typesArray.add(typeObj)
                 }
 
+                //Atualiza a interface
                 runOnUiThread {
                     progressBar.visibility = View.GONE
                     adapter.notifyDataSetChanged()
@@ -89,6 +93,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
 
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        //Salva as informacoes do tipo selecionado para a proxima activity
         val editor = getSharedPreferences("type", Context.MODE_PRIVATE).edit()
         editor.putString("typeurl",typesArray.get(position).url)
         editor.putString("typename",typesArray.get(position).name)
