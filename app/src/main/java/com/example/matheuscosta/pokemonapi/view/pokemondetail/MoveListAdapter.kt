@@ -1,4 +1,4 @@
-package com.example.matheuscosta.pokemonapi.activity.adapters
+package com.example.matheuscosta.pokemonapi.view.pokemondetail
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.example.matheuscosta.pokemonapi.R
-import com.example.matheuscosta.pokemonapi.objects.Move
+import com.example.matheuscosta.pokemonapi.model.Move
 
 class MoveListAdapter(val context: Context, val moves : ArrayList<Move>) : RecyclerView.Adapter<MoveListAdapter.ViewHolder>(){
 

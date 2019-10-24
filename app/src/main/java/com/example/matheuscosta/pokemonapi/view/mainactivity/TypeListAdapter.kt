@@ -1,16 +1,14 @@
-package com.example.matheuscosta.pokemonapi.activity.adapters
+package com.example.matheuscosta.pokemonapi.view.mainactivity
 
 import android.content.Context
 import android.support.constraint.ConstraintLayout
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.example.matheuscosta.pokemonapi.R
-import com.example.matheuscosta.pokemonapi.objects.Type
-import kotlinx.android.synthetic.main.type_row.view.*
+import com.example.matheuscosta.pokemonapi.model.Type
 
 class TypeListAdapter(context: Context,val objects: ArrayList<Type>) : ArrayAdapter<Type>(context, 0, objects) {
 

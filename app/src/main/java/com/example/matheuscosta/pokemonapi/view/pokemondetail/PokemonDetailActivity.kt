@@ -1,4 +1,4 @@
-package com.example.matheuscosta.pokemonapi.activity
+package com.example.matheuscosta.pokemonapi.view.pokemondetail
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,10 +11,9 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.matheuscosta.pokemonapi.R
-import com.example.matheuscosta.pokemonapi.activity.adapters.MoveListAdapter
-import com.example.matheuscosta.pokemonapi.objects.Move
-import com.example.matheuscosta.pokemonapi.objects.PokemonApiInfo
-import com.example.matheuscosta.pokemonapi.objects.Type
+import com.example.matheuscosta.pokemonapi.model.Move
+import com.example.matheuscosta.pokemonapi.model.PokemonApiInfo
+import com.example.matheuscosta.pokemonapi.model.Type
 import com.squareup.picasso.Picasso
 
 import kotlinx.android.synthetic.main.activity_pokemon_detail.*
@@ -25,7 +24,7 @@ import android.support.v7.widget.DividerItemDecoration
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ProgressBar
-import com.example.matheuscosta.pokemonapi.objects.Pokemon
+import com.example.matheuscosta.pokemonapi.model.Pokemon
 import java.util.concurrent.TimeUnit
 
 
@@ -82,7 +81,7 @@ class PokemonDetailActivity : AppCompatActivity() {
         tvPokeName.text = pokeInfo.name.capitalize()
 
         //Lista e adapter
-        adapter = MoveListAdapter(this,moves)
+        adapter = MoveListAdapter(this, moves)
         recyclerViewSkills.adapter = adapter
         val layoutManager = LinearLayoutManager(this)
         recyclerViewSkills.layoutManager = layoutManager

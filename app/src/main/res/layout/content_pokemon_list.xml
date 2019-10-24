@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".activity.PokemonListActivity"
+    tools:context=".view.pokemonlist.PokemonListActivity"
     tools:showIn="@layout/activity_pokemon_list"
     android:background="@color/white">
 

@@ -1,25 +1,19 @@
-package com.example.matheuscosta.pokemonapi.activity
+package com.example.matheuscosta.pokemonapi.view.mainactivity
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
-import android.os.AsyncTask
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import com.example.matheuscosta.pokemonapi.R
-import com.example.matheuscosta.pokemonapi.activity.adapters.TypeListAdapter
-import com.example.matheuscosta.pokemonapi.objects.Type
+import com.example.matheuscosta.pokemonapi.model.Type
+import com.example.matheuscosta.pokemonapi.view.pokemonlist.PokemonListActivity
 
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.*
-import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 import java.util.concurrent.TimeUnit
@@ -47,7 +41,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
         timeoutLayout = findViewById(R.id.timeoutLayout)
         gridViewTypes = findViewById(R.id.gridViewTypes)
         gridViewTypes.setOnItemClickListener(this)
-        adapter = TypeListAdapter(this,typesArray)
+        adapter = TypeListAdapter(this, typesArray)
         gridViewTypes.adapter = adapter
 
         progressBar.visibility = View.VISIBLE

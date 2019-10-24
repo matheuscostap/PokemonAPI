@@ -1,7 +1,6 @@
-package com.example.matheuscosta.pokemonapi.activity.adapters
+package com.example.matheuscosta.pokemonapi.view.pokemonlist
 
 import android.content.Context
-import android.support.constraint.ConstraintLayout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,8 +8,8 @@ import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.matheuscosta.pokemonapi.R
-import com.example.matheuscosta.pokemonapi.objects.PokemonApiInfo
-import com.example.matheuscosta.pokemonapi.objects.Type
+import com.example.matheuscosta.pokemonapi.model.PokemonApiInfo
+import com.example.matheuscosta.pokemonapi.model.Type
 import com.squareup.picasso.Picasso
 
 class PokemonListAdapter(context: Context, val objects: ArrayList<PokemonApiInfo>, val type : Type) : ArrayAdapter<PokemonApiInfo>(context, 0, objects) {

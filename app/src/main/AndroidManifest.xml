@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".view.mainactivity.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -22,22 +22,22 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.PokemonListActivity"
+            android:name=".view.pokemonlist.PokemonListActivity"
             android:label="@string/title_activity_pokemon_list"
-            android:parentActivityName=".activity.MainActivity"
+            android:parentActivityName=".view.mainactivity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.matheuscosta.pokemonapi.activity.MainActivity" />
+                android:value="com.example.matheuscosta.pokemonapi.view.mainactivity.MainActivity" />
         </activity>
         <activity
-            android:name=".activity.PokemonDetailActivity"
+            android:name=".view.pokemondetail.PokemonDetailActivity"
             android:label="@string/title_activity_pokemon_detail"
-            android:parentActivityName=".activity.PokemonListActivity"
+            android:parentActivityName=".view.pokemonlist.PokemonListActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.matheuscosta.pokemonapi.activity.PokemonListActivity" />
+                android:value="com.example.matheuscosta.pokemonapi.view.pokemonlist.PokemonListActivity" />
         </activity>
     </application>
 

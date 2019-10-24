@@ -1,21 +1,19 @@
-package com.example.matheuscosta.pokemonapi.activity
+package com.example.matheuscosta.pokemonapi.view.pokemonlist
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.GridView
 import android.widget.ProgressBar
-import android.widget.Toast
 import com.example.matheuscosta.pokemonapi.R
-import com.example.matheuscosta.pokemonapi.activity.adapters.PokemonListAdapter
-import com.example.matheuscosta.pokemonapi.objects.PokemonApiInfo
-import com.example.matheuscosta.pokemonapi.objects.Type
+import com.example.matheuscosta.pokemonapi.model.PokemonApiInfo
+import com.example.matheuscosta.pokemonapi.model.Type
+import com.example.matheuscosta.pokemonapi.view.pokemondetail.PokemonDetailActivity
 
 import kotlinx.android.synthetic.main.activity_pokemon_list.*
 import okhttp3.*
@@ -58,7 +56,7 @@ class PokemonListActivity : AppCompatActivity(), AdapterView.OnItemClickListener
         gridViewPokemon.setOnItemClickListener(this)
 
         //Adapter
-        adapter = PokemonListAdapter(this,pokeInfoArray,type)
+        adapter = PokemonListAdapter(this, pokeInfoArray, type)
         gridViewPokemon.adapter = adapter
 
         progressBar.visibility = View.VISIBLE
