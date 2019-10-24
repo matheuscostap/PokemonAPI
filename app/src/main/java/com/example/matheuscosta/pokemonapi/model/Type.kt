@@ -4,7 +4,7 @@ import android.content.Context
 import com.example.matheuscosta.pokemonapi.R
 import java.io.Serializable
 
-class Type (var name : String = "", var url : String = "") : Serializable{
+class Type (var name : String, var url : String) : Serializable{
 
     fun getTypeColor(context : Context): Int{
         when(this.name){
