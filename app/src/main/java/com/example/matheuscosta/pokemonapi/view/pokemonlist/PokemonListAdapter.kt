@@ -12,7 +12,7 @@ import com.example.matheuscosta.pokemonapi.model.PokemonApiInfo
 import com.example.matheuscosta.pokemonapi.model.Type
 import com.squareup.picasso.Picasso
 
-class PokemonListAdapter(context: Context, val objects: ArrayList<PokemonApiInfo>, val type : Type) : ArrayAdapter<PokemonApiInfo>(context, 0, objects) {
+class PokemonListAdapter(context: Context, val objects: List<PokemonApiInfo>, val type : Type) : ArrayAdapter<PokemonApiInfo>(context, 0, objects) {
 
     var inflater : LayoutInflater
 

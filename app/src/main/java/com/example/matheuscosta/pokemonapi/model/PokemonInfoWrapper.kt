@@ -2,7 +2,7 @@ package com.example.matheuscosta.pokemonapi.model
 
 import com.google.gson.annotations.Expose
 
-class TypeResponse (
+class PokemonInfoWrapper (
         @Expose
-        val results: List<Type>
+        val pokemon: PokemonApiInfo
 )

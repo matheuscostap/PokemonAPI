@@ -2,9 +2,15 @@ package com.example.matheuscosta.pokemonapi.model
 
 import android.content.Context
 import com.example.matheuscosta.pokemonapi.R
+import com.google.gson.annotations.Expose
 import java.io.Serializable
 
-class Type (var name : String, var url : String) : Serializable{
+class Type (
+        var typeId: Int,
+        @Expose
+        var name : String,
+        @Expose
+        var url : String) : Serializable{
 
     fun getTypeColor(context : Context): Int{
         when(this.name){

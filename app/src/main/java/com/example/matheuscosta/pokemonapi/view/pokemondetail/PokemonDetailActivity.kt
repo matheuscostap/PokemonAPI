@@ -132,7 +132,7 @@ class PokemonDetailActivity : AppCompatActivity() {
             val typeJsonObj = typesJsonArray.getJSONObject(i).getJSONObject("type")
             val typeName = typeJsonObj.getString("name")
             val typeUrl = typeJsonObj.getString("url")
-            val typeObj = Type(typeName, typeUrl)
+            val typeObj = Type(0,typeName, typeUrl)
             types.add(typeObj)
         }
 

@@ -73,6 +73,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         //Salva as informacoes do tipo selecionado para a proxima activity
         val editor = getSharedPreferences("type", Context.MODE_PRIVATE).edit()
+        editor.putInt("typeID",typesArray.get(position).typeId)
         editor.putString("typeurl",typesArray.get(position).url)
         editor.putString("typename",typesArray.get(position).name)
         editor.commit()
