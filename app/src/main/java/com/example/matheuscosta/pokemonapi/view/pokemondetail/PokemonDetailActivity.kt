@@ -1,5 +1,6 @@
 package com.example.matheuscosta.pokemonapi.view.pokemondetail
 
+import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
@@ -11,9 +12,6 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.matheuscosta.pokemonapi.R
-import com.example.matheuscosta.pokemonapi.model.Move
-import com.example.matheuscosta.pokemonapi.model.PokemonApiInfo
-import com.example.matheuscosta.pokemonapi.model.Type
 import com.squareup.picasso.Picasso
 
 import kotlinx.android.synthetic.main.activity_pokemon_detail.*
@@ -24,28 +22,23 @@ import android.support.v7.widget.DividerItemDecoration
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ProgressBar
-import com.example.matheuscosta.pokemonapi.model.Pokemon
+import com.example.matheuscosta.pokemonapi.model.*
+import com.example.matheuscosta.pokemonapi.repository.PokeClient
+import com.example.matheuscosta.pokemonapi.repository.PokeRepositoryImpl
+import kotlinx.android.synthetic.main.content_pokemon_detail.*
+import kotlinx.android.synthetic.main.content_pokemon_detail.progressBar
+import kotlinx.android.synthetic.main.content_pokemon_list.*
 import java.util.concurrent.TimeUnit
 
 
 class PokemonDetailActivity : AppCompatActivity() {
 
-    lateinit var ivPokemon : ImageView
-    lateinit var tvPokeName : TextView
-    lateinit var tvPokeType1 : TextView
-    lateinit var tvPokeType2 : TextView
-    lateinit var tvPokeHeight : TextView
-    lateinit var tvPokeWeight : TextView
-    lateinit var recyclerViewSkills : RecyclerView
-    lateinit var detailsBackground : ConstraintLayout
+    private var pokemon : Pokemon? = null
+    private val viewModel = PokemonDetailViewModel(PokeRepositoryImpl(PokeClient.createClient()))
     lateinit var pokeInfo : PokemonApiInfo
     lateinit var type : Type
-    lateinit var pokemon : Pokemon
     lateinit var adapter : MoveListAdapter
-    lateinit var timeoutLayout : ConstraintLayout
-    lateinit var progressBar : ProgressBar
     var moves = arrayListOf<Move>()
-    var types = arrayListOf<Type>()
 
 
 
@@ -63,18 +56,6 @@ class PokemonDetailActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        //Referencias
-        ivPokemon = findViewById(R.id.ivPokemon)
-        tvPokeName = findViewById(R.id.tvPokeName)
-        tvPokeType1 = findViewById(R.id.tvPokeType1)
-        tvPokeType2 = findViewById(R.id.tvPokeType2)
-        tvPokeHeight = findViewById(R.id.tvPokeHeight)
-        tvPokeWeight = findViewById(R.id.tvPokeWeight)
-        recyclerViewSkills = findViewById(R.id.recyclerViewSkills)
-        detailsBackground = findViewById(R.id.detailsBackground)
-        timeoutLayout = findViewById(R.id.timeoutLayout)
-        progressBar = findViewById(R.id.progressBar)
-
         //Sets iniciais
         detailsBackground.setBackgroundColor(type.getTypeColor(applicationContext))
         Picasso.get().load(pokeInfo.imageURL).resize(150,150).into(ivPokemon)
@@ -87,102 +68,84 @@ class PokemonDetailActivity : AppCompatActivity() {
         recyclerViewSkills.layoutManager = layoutManager
         recyclerViewSkills.addItemDecoration(DividerItemDecoration(recyclerViewSkills.context, DividerItemDecoration.VERTICAL))
 
-        //Progressbar
-        progressBar.visibility = View.VISIBLE
+        observeVM()
+        viewModel.getPokemon(pokeInfo.number.toInt())
+    }
 
 
-        //OkHttp
-        val httpClient = OkHttpClient.Builder().connectTimeout(5, TimeUnit.SECONDS).build()
-        val request = Request.Builder().url(pokeInfo.url).build()
+    private fun observeVM(){
+        viewModel.event.observe(this, Observer { event ->
+            when(event?.status){
+                NetworkStatus.LOADING -> {
+                    progressBar.visibility = View.VISIBLE
+                }
 
-        httpClient.newCall(request).enqueue(object : Callback {
+                NetworkStatus.SUCCESS -> {
+                    progressBar.visibility = View.GONE
+                    event.obj?.let {
+                        Log.i("PokemonDetail","Pokemon -> $it")
+                        this.pokemon = it
+                        showInfos()
+                    }
+                }
 
-            override fun onFailure(call: Call, e: IOException) {
-                progressBar.visibility = View.GONE
-                timeoutLayout.visibility = View.VISIBLE
-            }
+                NetworkStatus.ERROR -> {
 
-            override fun onResponse(call: Call, response: Response) {
-                displayContent(response)
+                }
             }
         })
     }
 
 
-    fun displayContent(response: Response){
-        //Extrai as informacoes relevantes do json retornado
-        val responseString = response.body()?.string() ?: "{}"
+    private fun showInfos(){
+        pokemon?.let {
+            tvPokeHeight.text = "${it.height * 10}cm"
+            tvPokeWeight.text = "${it.weight * 100}g"
 
-        val jsonResponse = JSONObject(responseString)
-        val movesJsonArray = jsonResponse.getJSONArray("moves")
-        val typesJsonArray = jsonResponse.getJSONArray("types")
-
-        val height = jsonResponse.getInt("height") * 10 //decimetros para centimetros
-        val weight = jsonResponse.getInt("weight") * 100 //hectograma para grama
-
-        for(i in 0..(movesJsonArray.length() - 1)){
-            val moveJsonObj = movesJsonArray.getJSONObject(i).getJSONObject("move")
-            val moveName = moveJsonObj.getString("name")
-            val moveUrl = moveJsonObj.getString("url")
-            val moveObj = Move(moveName, moveUrl)
-            moves.add(moveObj)
-        }
-
-        for(i in 0..(typesJsonArray.length() - 1)){
-            val typeJsonObj = typesJsonArray.getJSONObject(i).getJSONObject("type")
-            val typeName = typeJsonObj.getString("name")
-            val typeUrl = typeJsonObj.getString("url")
-            val typeObj = Type(0,typeName, typeUrl)
-            types.add(typeObj)
-        }
-
-        pokemon = Pokemon(pokeInfo.name.capitalize(), height.toString(), weight.toString(), moves, types)
-
-        //Seta as informacoes na interface
-        runOnUiThread {
-            progressBar.visibility = View.GONE
-            tvPokeHeight.text = "$height cm"
-            tvPokeWeight.text = "$weight g"
-
-            tvPokeType1.text = types.get(0).name
-            tvPokeType1.setBackgroundColor(types.get(0).getTypeColor(applicationContext))
+            tvPokeType1.text = it.types[0].type.name
+            tvPokeType1.setBackgroundColor(it.types[0].type.getTypeColor(this))
             tvPokeType1.visibility = View.VISIBLE
 
-            if (types.size > 1){
+            if (it.types.size > 1){
+                tvPokeType2.text = it.types[1].type.name
+                tvPokeType2.setBackgroundColor(it.types[1].type.getTypeColor(this))
                 tvPokeType2.visibility = View.VISIBLE
-                tvPokeType2.text = types.get(1).name
-                tvPokeType2.setBackgroundColor(types.get(1).getTypeColor(applicationContext))
             }
+
+            val movesUnwrap = it.moves.map { move -> move.move }
+            this.moves.addAll(movesUnwrap)
             adapter.notifyDataSetChanged()
         }
     }
 
 
     fun shareContent(){
-        //Formata a string com as informacoes
-        var content = pokemon.name
+        pokemon?.let {
+            //Formata a string com as informacoes
+            var content = pokemon?.name
 
-        content += "\nTipo:"
-        for (type in types){
-            content += "\n${type.name}"
+            content += "\nTipo:"
+            for (type in it.types){
+                content += "\n${type.type.name}"
+            }
+
+            content += "\nAltura: ${it.height} cm"
+            content += "\nPeso: ${it.weight} g"
+            content += "\nHabilidades:"
+
+            for (move in moves){
+                content += "\n${move.name}"
+            }
+
+            Log.i("Details",content)
+
+            //Abre o dialog para selecionar o app
+            val intent = Intent()
+            intent.action = Intent.ACTION_SEND
+            intent.putExtra(Intent.EXTRA_TEXT,content)
+            intent.type = "text/plain"
+            startActivity(Intent.createChooser(intent, "Compartilhar"))
         }
-
-        content += "\nAltura: ${pokemon.height} cm"
-        content += "\nPeso: ${pokemon.weight} g"
-        content += "\nHabilidades:"
-
-        for (move in moves){
-            content += "\n${move.name}"
-        }
-
-        Log.i("Details",content)
-
-        //Abre o dialog para selecionar o app
-        val intent = Intent()
-        intent.action = Intent.ACTION_SEND
-        intent.putExtra(Intent.EXTRA_TEXT,content)
-        intent.type = "text/plain"
-        startActivity(Intent.createChooser(intent, "Compartilhar"))
     }
 
 

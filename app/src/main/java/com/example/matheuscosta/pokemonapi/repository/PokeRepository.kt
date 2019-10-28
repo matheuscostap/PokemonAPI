@@ -10,9 +10,28 @@ import retrofit2.Response
 interface PokeRepository {
     fun getTypes(data: (LiveData<AbstractModel<List<Type>>>) -> Unit)
     fun getPokemonsByType(typeId: Int, data: (LiveData<AbstractModel<List<PokemonApiInfo>>>) -> Unit)
+    fun getPokemon(pokemonId: Int, data: (LiveData<AbstractModel<Pokemon>>) -> Unit)
 }
 
 class PokeRepositoryImpl(private val dataSource: PokeDataSource): PokeRepository{
+
+    override fun getPokemon(pokemonId: Int, data: (LiveData<AbstractModel<Pokemon>>) -> Unit) {
+        val res = MutableLiveData<AbstractModel<Pokemon>>()
+        res.value = AbstractModel(status = NetworkStatus.LOADING)
+        data(res)
+
+        dataSource.getPokemon(pokemonId).enqueue(object : Callback<Pokemon>{
+            override fun onFailure(call: Call<Pokemon>, t: Throwable) {
+                res.value = AbstractModel(status = NetworkStatus.ERROR)
+                data(res)
+            }
+
+            override fun onResponse(call: Call<Pokemon>, response: Response<Pokemon>) {
+                res.value = AbstractModel(status = NetworkStatus.SUCCESS, obj = response.body())
+                data(res)
+            }
+        })
+    }
 
     override fun getPokemonsByType(typeId: Int, data: (LiveData<AbstractModel<List<PokemonApiInfo>>>) -> Unit) {
         val res = MutableLiveData<AbstractModel<List<PokemonApiInfo>>>()

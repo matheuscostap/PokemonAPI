@@ -1,5 +1,6 @@
 package com.example.matheuscosta.pokemonapi.repository
 
+import com.example.matheuscosta.pokemonapi.model.Pokemon
 import com.example.matheuscosta.pokemonapi.model.PokemonApiInfoResponse
 import com.example.matheuscosta.pokemonapi.model.TypeResponse
 import retrofit2.Call
@@ -14,4 +15,7 @@ interface PokeDataSource{
 
     @GET("api/v2/type/{typeId}")
     fun getPokemonsByType(@Path("typeId") typeId: Int): Call<PokemonApiInfoResponse>
+
+    @GET("api/v2/pokemon/{pokemonId}")
+    fun getPokemon(@Path("pokemonId") pokemonId: Int): Call<Pokemon>
 }

@@ -49,6 +49,7 @@ class PokemonListActivity : AppCompatActivity(), AdapterView.OnItemClickListener
         //Adapter
         adapter = PokemonListAdapter(this, pokeInfoArray, type)
         gridViewPokemon.adapter = adapter
+        gridViewPokemon.setOnItemClickListener(this)
 
         observeVM()
         viewModel.getPokemonsByType(type.typeId)
@@ -83,7 +84,6 @@ class PokemonListActivity : AppCompatActivity(), AdapterView.OnItemClickListener
         }.toMutableList()
 
         pokeInfoArray.addAll(listMap)
-        Log.i("PokemonList", "Poke -> $pokeInfoArray")
         adapter.notifyDataSetChanged()
     }
 

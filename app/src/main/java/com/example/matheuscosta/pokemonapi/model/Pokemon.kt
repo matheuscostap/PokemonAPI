@@ -1,4 +1,20 @@
 package com.example.matheuscosta.pokemonapi.model
 
-class Pokemon(var name : String = "", var height : String = "", var weight : String = "",
-              var moves : ArrayList<Move>, var types : ArrayList<Type>)
+import com.google.gson.annotations.Expose
+
+class Pokemon(
+        @Expose
+        val name : String,
+        @Expose
+        val height : Int,
+        @Expose
+        var weight : Int,
+        @Expose
+        var moves : ArrayList<MoveWrapper>,
+        @Expose
+        var types : ArrayList<TypeWrapper>){
+
+        override fun toString(): String {
+            return "Pokemon(name='$name', height=$height, weight=$weight, moves=$moves, types=$types)"
+        }
+}

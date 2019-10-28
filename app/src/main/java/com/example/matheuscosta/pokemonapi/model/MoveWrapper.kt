@@ -2,13 +2,11 @@ package com.example.matheuscosta.pokemonapi.model
 
 import com.google.gson.annotations.Expose
 
-class Move(
+class MoveWrapper (
         @Expose
-        var name : String,
-        @Expose
-        var url : String){
-
+        val move: Move
+){
         override fun toString(): String {
-            return "Move(name='$name', url='$url')"
+                return "MoveWrapper(move=$move)"
         }
 }

@@ -10,7 +10,7 @@ class PokemonApiInfo(
         @Expose
         var url : String,
         var imageURL : String,
-        var number : String?) : Serializable{
+        var number : String) : Serializable{
 
         override fun toString(): String {
                 return "PokemonApiInfo(name='$name', url='$url', imageURL='$imageURL', number=$number)"
