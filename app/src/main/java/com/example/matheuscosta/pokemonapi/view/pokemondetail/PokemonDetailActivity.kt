@@ -2,6 +2,8 @@ package com.example.matheuscosta.pokemonapi.view.pokemondetail
 
 import android.arch.lifecycle.Observer
 import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager
@@ -21,6 +23,10 @@ import com.example.matheuscosta.pokemonapi.model.pokemon.PokemonApiInfo
 import com.example.matheuscosta.pokemonapi.model.type.Type
 import com.example.matheuscosta.pokemonapi.repository.PokeClient
 import com.example.matheuscosta.pokemonapi.repository.PokeRepositoryImpl
+import com.google.ar.sceneform.Node
+import com.google.ar.sceneform.assets.RenderableSource
+import com.google.ar.sceneform.math.Vector3
+import com.google.ar.sceneform.rendering.ModelRenderable
 import kotlinx.android.synthetic.main.content_pokemon_detail.*
 import kotlinx.android.synthetic.main.content_pokemon_detail.progressBar
 
@@ -33,6 +39,7 @@ class PokemonDetailActivity : AppCompatActivity() {
     lateinit var type : Type
     lateinit var adapter : MoveListAdapter
     var moves = arrayListOf<Move>()
+    private val poke3DModelURL = "https://raw.githubusercontent.com/matheuscostap/GLTFModels/master/pokemons/pokeId/model.gltf"
 
 
 
@@ -54,6 +61,7 @@ class PokemonDetailActivity : AppCompatActivity() {
         detailsBackground.setBackgroundColor(type.getTypeColor(applicationContext))
         Picasso.get().load(pokeInfo.imageURL).resize(150,150).into(ivPokemon)
         tvPokeName.text = pokeInfo.name.capitalize()
+        //sceneView.visibility = View.GONE
 
         //Lista e adapter
         adapter = MoveListAdapter(this, moves)
@@ -71,7 +79,7 @@ class PokemonDetailActivity : AppCompatActivity() {
         viewModel.event.observe(this, Observer { event ->
             when(event?.status){
                 NetworkStatus.LOADING -> {
-                    progressBar.visibility = View.VISIBLE
+                    //progressBar.visibility = View.VISIBLE
                 }
 
                 NetworkStatus.SUCCESS -> {
@@ -88,6 +96,43 @@ class PokemonDetailActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+
+    private fun getPokemon3DModel(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            val url = poke3DModelURL.replace("pokeId",pokeInfo.number)
+
+            ModelRenderable.builder()
+                .setSource(this, RenderableSource.Builder().setSource(
+                        this,
+                        Uri.parse(url),
+                        RenderableSource.SourceType.GLTF2)
+                        .setScale(0.3f)
+                        .setRecenterMode(RenderableSource.RecenterMode.ROOT)
+                        .build())
+                .setRegistryId(url)
+                .build()
+                .thenAccept { renderable ->
+                    add3dModel(renderable)
+                }
+                /*.exceptionally { t ->
+
+                }*/
+        }
+    }
+
+
+    private fun add3dModel(renderable: ModelRenderable){
+        Log.i("PokemonDetail","add3DModel()")
+        val pokeNode = Node().apply {
+            setParent(sceneView.scene)
+            localPosition = Vector3(0f,0f,-1f)
+            name = pokeInfo.name
+            this.renderable = renderable
+        }
+
+        sceneView.scene.addChild(pokeNode)
     }
 
 
@@ -109,6 +154,8 @@ class PokemonDetailActivity : AppCompatActivity() {
             val movesUnwrap = it.moves.map { move -> move.move }
             this.moves.addAll(movesUnwrap)
             adapter.notifyDataSetChanged()
+
+            getPokemon3DModel()
         }
     }
 
@@ -157,6 +204,16 @@ class PokemonDetailActivity : AppCompatActivity() {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        sceneView.pause()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        sceneView.resume()
     }
 
 }
