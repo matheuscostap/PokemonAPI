@@ -8,8 +8,8 @@ import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.matheuscosta.pokemonapi.R
-import com.example.matheuscosta.pokemonapi.model.PokemonApiInfo
-import com.example.matheuscosta.pokemonapi.model.Type
+import com.example.matheuscosta.pokemonapi.model.pokemon.PokemonApiInfo
+import com.example.matheuscosta.pokemonapi.model.type.Type
 import com.squareup.picasso.Picasso
 
 class PokemonListAdapter(context: Context, val objects: List<PokemonApiInfo>, val type : Type) : ArrayAdapter<PokemonApiInfo>(context, 0, objects) {

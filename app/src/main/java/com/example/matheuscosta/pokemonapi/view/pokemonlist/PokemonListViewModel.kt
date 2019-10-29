@@ -3,7 +3,7 @@ package com.example.matheuscosta.pokemonapi.view.pokemonlist
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.example.matheuscosta.pokemonapi.model.AbstractModel
-import com.example.matheuscosta.pokemonapi.model.PokemonApiInfo
+import com.example.matheuscosta.pokemonapi.model.pokemon.PokemonApiInfo
 import com.example.matheuscosta.pokemonapi.repository.PokeRepository
 
 class PokemonListViewModel (val repository: PokeRepository): ViewModel(){

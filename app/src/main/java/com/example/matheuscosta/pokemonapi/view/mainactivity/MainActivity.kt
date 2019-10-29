@@ -4,14 +4,12 @@ import android.arch.lifecycle.Observer
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.constraint.ConstraintLayout
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log
 import android.view.View
 import android.widget.*
 import com.example.matheuscosta.pokemonapi.R
 import com.example.matheuscosta.pokemonapi.model.NetworkStatus
-import com.example.matheuscosta.pokemonapi.model.Type
+import com.example.matheuscosta.pokemonapi.model.type.Type
 import com.example.matheuscosta.pokemonapi.repository.PokeClient
 import com.example.matheuscosta.pokemonapi.repository.PokeDataSource
 import com.example.matheuscosta.pokemonapi.repository.PokeRepositoryImpl
@@ -20,11 +18,6 @@ import com.example.matheuscosta.pokemonapi.view.pokemonlist.PokemonListActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.content_main.progressBar
-import kotlinx.android.synthetic.main.content_pokemon_detail.*
-import okhttp3.*
-import org.json.JSONObject
-import java.io.IOException
-import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 

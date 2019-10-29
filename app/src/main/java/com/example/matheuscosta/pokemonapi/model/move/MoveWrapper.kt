@@ -1,4 +1,4 @@
-package com.example.matheuscosta.pokemonapi.model
+package com.example.matheuscosta.pokemonapi.model.move
 
 import com.google.gson.annotations.Expose
 

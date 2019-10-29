@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.example.matheuscosta.pokemonapi.R
-import com.example.matheuscosta.pokemonapi.model.Type
+import com.example.matheuscosta.pokemonapi.model.type.Type
 
 class TypeListAdapter(context: Context,val objects: ArrayList<Type>) : ArrayAdapter<Type>(context, 0, objects) {
 

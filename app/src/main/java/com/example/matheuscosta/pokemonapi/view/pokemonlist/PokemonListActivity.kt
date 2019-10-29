@@ -10,8 +10,8 @@ import android.view.View
 import android.widget.AdapterView
 import com.example.matheuscosta.pokemonapi.R
 import com.example.matheuscosta.pokemonapi.model.NetworkStatus
-import com.example.matheuscosta.pokemonapi.model.PokemonApiInfo
-import com.example.matheuscosta.pokemonapi.model.Type
+import com.example.matheuscosta.pokemonapi.model.pokemon.PokemonApiInfo
+import com.example.matheuscosta.pokemonapi.model.type.Type
 import com.example.matheuscosta.pokemonapi.repository.PokeClient
 import com.example.matheuscosta.pokemonapi.repository.PokeDataSource
 import com.example.matheuscosta.pokemonapi.repository.PokeRepositoryImpl
@@ -37,7 +37,8 @@ class PokemonListActivity : AppCompatActivity(), AdapterView.OnItemClickListener
         val typeUrl = preferences.getString("typeurl","")
         val typeName = preferences.getString("typename","")
 
-        type = Type(typeID, typeName ?: "", typeUrl ?: "")
+        type = Type(typeID, typeName ?: "", typeUrl
+                ?: "")
 
         //Tema e toolbar
         setTheme(type.getTypeTheme())

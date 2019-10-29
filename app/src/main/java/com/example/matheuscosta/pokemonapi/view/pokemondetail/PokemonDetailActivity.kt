@@ -3,32 +3,26 @@ package com.example.matheuscosta.pokemonapi.view.pokemondetail
 import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
-import android.support.constraint.ConstraintLayout
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
 import com.example.matheuscosta.pokemonapi.R
 import com.squareup.picasso.Picasso
 
 import kotlinx.android.synthetic.main.activity_pokemon_detail.*
-import okhttp3.*
-import org.json.JSONObject
-import java.io.IOException
 import android.support.v7.widget.DividerItemDecoration
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.ProgressBar
 import com.example.matheuscosta.pokemonapi.model.*
+import com.example.matheuscosta.pokemonapi.model.move.Move
+import com.example.matheuscosta.pokemonapi.model.pokemon.Pokemon
+import com.example.matheuscosta.pokemonapi.model.pokemon.PokemonApiInfo
+import com.example.matheuscosta.pokemonapi.model.type.Type
 import com.example.matheuscosta.pokemonapi.repository.PokeClient
 import com.example.matheuscosta.pokemonapi.repository.PokeRepositoryImpl
 import kotlinx.android.synthetic.main.content_pokemon_detail.*
 import kotlinx.android.synthetic.main.content_pokemon_detail.progressBar
-import kotlinx.android.synthetic.main.content_pokemon_list.*
-import java.util.concurrent.TimeUnit
 
 
 class PokemonDetailActivity : AppCompatActivity() {

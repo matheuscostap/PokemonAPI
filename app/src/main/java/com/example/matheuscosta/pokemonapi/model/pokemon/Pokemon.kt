@@ -1,5 +1,7 @@
-package com.example.matheuscosta.pokemonapi.model
+package com.example.matheuscosta.pokemonapi.model.pokemon
 
+import com.example.matheuscosta.pokemonapi.model.move.MoveWrapper
+import com.example.matheuscosta.pokemonapi.model.type.TypeWrapper
 import com.google.gson.annotations.Expose
 
 class Pokemon(

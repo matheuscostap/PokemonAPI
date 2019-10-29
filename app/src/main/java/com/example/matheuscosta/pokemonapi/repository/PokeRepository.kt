@@ -3,6 +3,11 @@ package com.example.matheuscosta.pokemonapi.repository
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import com.example.matheuscosta.pokemonapi.model.*
+import com.example.matheuscosta.pokemonapi.model.pokemon.Pokemon
+import com.example.matheuscosta.pokemonapi.model.pokemon.PokemonApiInfo
+import com.example.matheuscosta.pokemonapi.model.pokemon.PokemonApiInfoResponse
+import com.example.matheuscosta.pokemonapi.model.type.Type
+import com.example.matheuscosta.pokemonapi.model.type.TypeResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

@@ -1,8 +1,8 @@
 package com.example.matheuscosta.pokemonapi.repository
 
-import com.example.matheuscosta.pokemonapi.model.Pokemon
-import com.example.matheuscosta.pokemonapi.model.PokemonApiInfoResponse
-import com.example.matheuscosta.pokemonapi.model.TypeResponse
+import com.example.matheuscosta.pokemonapi.model.pokemon.Pokemon
+import com.example.matheuscosta.pokemonapi.model.pokemon.PokemonApiInfoResponse
+import com.example.matheuscosta.pokemonapi.model.type.TypeResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

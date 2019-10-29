@@ -1,4 +1,4 @@
-package com.example.matheuscosta.pokemonapi.model
+package com.example.matheuscosta.pokemonapi.model.type
 
 import android.content.Context
 import com.example.matheuscosta.pokemonapi.R
