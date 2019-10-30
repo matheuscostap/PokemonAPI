@@ -12,7 +12,7 @@
     app:layoutDescription="@xml/motion_scene"
     android:id="@+id/detailsBackground">
 
-    <com.google.ar.sceneform.SceneView
+    <com.example.matheuscosta.pokemonapi.view.FixedBackgroundSceneView
         android:visibility="gone"
         android:id="@+id/sceneView"
         android:layout_width="match_parent"

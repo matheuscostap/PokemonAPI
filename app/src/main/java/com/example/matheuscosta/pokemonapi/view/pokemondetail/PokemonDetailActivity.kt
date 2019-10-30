@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.support.constraint.motion.MotionLayout
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
@@ -16,6 +17,7 @@ import kotlinx.android.synthetic.main.activity_pokemon_detail.*
 import android.support.v7.widget.DividerItemDecoration
 import android.view.Menu
 import android.view.MenuItem
+import android.view.MotionEvent
 import com.example.matheuscosta.pokemonapi.model.*
 import com.example.matheuscosta.pokemonapi.model.move.Move
 import com.example.matheuscosta.pokemonapi.model.pokemon.Pokemon
@@ -31,8 +33,7 @@ import kotlinx.android.synthetic.main.content_pokemon_detail.*
 import kotlinx.android.synthetic.main.content_pokemon_detail.progressBar
 
 
-class PokemonDetailActivity : AppCompatActivity() {
-
+class PokemonDetailActivity : AppCompatActivity(), MotionLayout.TransitionListener {
     private var pokemon : Pokemon? = null
     private val viewModel = PokemonDetailViewModel(PokeRepositoryImpl(PokeClient.createClient()))
     lateinit var pokeInfo : PokemonApiInfo
@@ -40,7 +41,7 @@ class PokemonDetailActivity : AppCompatActivity() {
     lateinit var adapter : MoveListAdapter
     var moves = arrayListOf<Move>()
     private val poke3DModelURL = "https://raw.githubusercontent.com/matheuscostap/GLTFModels/master/pokemons/pokeId/model.gltf"
-
+    private var model3DOpen = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,8 +62,8 @@ class PokemonDetailActivity : AppCompatActivity() {
         detailsBackground.setBackgroundColor(type.getTypeColor(applicationContext))
         Picasso.get().load(pokeInfo.imageURL).resize(150,150).into(ivPokemon)
         tvPokeName.text = pokeInfo.name.capitalize()
-        //sceneView.visibility = View.GONE
         sceneView.setBackgroundColor(type.getTypeColor(applicationContext))
+        detailsBackground.setTransitionListener(this)
 
         //Lista e adapter
         adapter = MoveListAdapter(this, moves)
@@ -73,6 +74,15 @@ class PokemonDetailActivity : AppCompatActivity() {
 
         observeVM()
         viewModel.getPokemon(pokeInfo.number.toInt())
+
+        //Click Listener é sobrescrevido pelo motion scene
+        fab3D.setOnTouchListener { v, event ->
+            if (event.action == MotionEvent.ACTION_UP){
+                model3DOpen = !model3DOpen
+                Log.i("PokemonDetail", "model3DOpen -> $model3DOpen")
+            }
+            false
+        }
     }
 
 
@@ -215,6 +225,18 @@ class PokemonDetailActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         sceneView.resume()
+    }
+
+    //Motion Layout Transitions Listener
+    override fun onTransitionChange(motionLayout: MotionLayout, startId: Int, endId: Int, progress: Float) {
+    }
+
+    override fun onTransitionCompleted(motionLayout: MotionLayout, currentId: Int) {
+        Log.i("PokemonDetail", "onTransitionCompleted()")
+        if (model3DOpen){
+            Log.i("PokemonDetail", "model3DOPen == true")
+            sceneView.visibility = View.VISIBLE
+        }
     }
 
 }

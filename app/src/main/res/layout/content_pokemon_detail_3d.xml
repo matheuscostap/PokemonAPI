@@ -10,7 +10,8 @@
     tools:context=".view.pokemondetail.PokemonDetailActivity"
     android:id="@+id/detailsBackground">
 
-    <com.google.ar.sceneform.SceneView
+    <com.example.matheuscosta.pokemonapi.view.FixedBackgroundSceneView
+        android:visibility="gone"
         android:id="@+id/sceneView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
