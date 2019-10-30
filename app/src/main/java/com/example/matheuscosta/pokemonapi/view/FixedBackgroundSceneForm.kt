@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import com.google.ar.sceneform.SceneView
 
+//https://github.com/google-ar/sceneform-android-sdk/issues/251
 class FixedBackgroundSceneView @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null

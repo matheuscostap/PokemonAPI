@@ -2,6 +2,7 @@ package com.example.matheuscosta.pokemonapi.view.pokemondetail
 
 import android.arch.lifecycle.Observer
 import android.content.Intent
+import android.graphics.PorterDuff
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -9,15 +10,12 @@ import android.support.constraint.motion.MotionLayout
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
-import android.view.View
 import com.example.matheuscosta.pokemonapi.R
 import com.squareup.picasso.Picasso
 
 import kotlinx.android.synthetic.main.activity_pokemon_detail.*
 import android.support.v7.widget.DividerItemDecoration
-import android.view.Menu
-import android.view.MenuItem
-import android.view.MotionEvent
+import android.view.*
 import com.example.matheuscosta.pokemonapi.model.*
 import com.example.matheuscosta.pokemonapi.model.move.Move
 import com.example.matheuscosta.pokemonapi.model.pokemon.Pokemon
@@ -27,13 +25,17 @@ import com.example.matheuscosta.pokemonapi.repository.PokeClient
 import com.example.matheuscosta.pokemonapi.repository.PokeRepositoryImpl
 import com.google.ar.sceneform.Node
 import com.google.ar.sceneform.assets.RenderableSource
+import com.google.ar.sceneform.math.Quaternion
 import com.google.ar.sceneform.math.Vector3
 import com.google.ar.sceneform.rendering.ModelRenderable
 import kotlinx.android.synthetic.main.content_pokemon_detail.*
 import kotlinx.android.synthetic.main.content_pokemon_detail.progressBar
+import kotlin.math.max
+import kotlin.math.min
 
 
-class PokemonDetailActivity : AppCompatActivity(), MotionLayout.TransitionListener {
+class PokemonDetailActivity : AppCompatActivity(), MotionLayout.TransitionListener, ScaleGestureDetector.OnScaleGestureListener {
+
     private var pokemon : Pokemon? = null
     private val viewModel = PokemonDetailViewModel(PokeRepositoryImpl(PokeClient.createClient()))
     lateinit var pokeInfo : PokemonApiInfo
@@ -42,6 +44,12 @@ class PokemonDetailActivity : AppCompatActivity(), MotionLayout.TransitionListen
     var moves = arrayListOf<Move>()
     private val poke3DModelURL = "https://raw.githubusercontent.com/matheuscostap/GLTFModels/master/pokemons/pokeId/model.gltf"
     private var model3DOpen = false
+    private val pokeNode = Node()
+    private val rotateQuatY = Quaternion.axisAngle(Vector3(0f,0f,0f),0f)
+    private val rotateQuatX = Quaternion.axisAngle(Vector3(0f,0f,0f),0f)
+    private lateinit var gestureDetector: ScaleGestureDetector
+    private var scaleFactor = 1f
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,6 +72,7 @@ class PokemonDetailActivity : AppCompatActivity(), MotionLayout.TransitionListen
         tvPokeName.text = pokeInfo.name.capitalize()
         sceneView.setBackgroundColor(type.getTypeColor(applicationContext))
         detailsBackground.setTransitionListener(this)
+        gestureDetector = ScaleGestureDetector(this,this)
 
         //Lista e adapter
         adapter = MoveListAdapter(this, moves)
@@ -79,8 +88,20 @@ class PokemonDetailActivity : AppCompatActivity(), MotionLayout.TransitionListen
         fab3D.setOnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_UP){
                 model3DOpen = !model3DOpen
-                Log.i("PokemonDetail", "model3DOpen -> $model3DOpen")
             }
+            false
+        }
+
+        sceneView.setOnTouchListener { v, event ->
+            //Log.i("PokemonDetail", "Event X -> ${event.x}")
+            //Log.i("PokemonDetail", "Event Y -> ${event.y}")
+
+            gestureDetector.onTouchEvent(event)
+
+            if(event.action == MotionEvent.ACTION_MOVE){
+                rotateModel(event.x, event.y)
+            }
+
             false
         }
     }
@@ -136,14 +157,30 @@ class PokemonDetailActivity : AppCompatActivity(), MotionLayout.TransitionListen
 
     private fun add3dModel(renderable: ModelRenderable){
         Log.i("PokemonDetail","add3DModel()")
-        val pokeNode = Node().apply {
+        pokeNode.apply {
             setParent(sceneView.scene)
             localPosition = Vector3(0f,0f,-1f)
+            worldPosition = Vector3(0f,0f,0f)
             name = pokeInfo.name
             this.renderable = renderable
         }
 
         sceneView.scene.addChild(pokeNode)
+    }
+
+
+    private fun rotateModel(x: Float, y: Float){
+        rotateQuatX.set(Vector3(1f,0f,0f),y)
+        rotateQuatY.set(Vector3(0f,1f,0f),x)
+
+        val finalRotate = Quaternion.multiply(rotateQuatY, rotateQuatX)
+
+        pokeNode.localRotation = finalRotate
+    }
+
+
+    private fun resizeModel(scale: Float){
+        pokeNode.localScale = Vector3(scale,scale,scale)
     }
 
 
@@ -227,9 +264,8 @@ class PokemonDetailActivity : AppCompatActivity(), MotionLayout.TransitionListen
         sceneView.resume()
     }
 
-    //Motion Layout Transitions Listener
-    override fun onTransitionChange(motionLayout: MotionLayout, startId: Int, endId: Int, progress: Float) {
-    }
+    /** Motion Layout Transitions Listener **/
+    override fun onTransitionChange(motionLayout: MotionLayout, startId: Int, endId: Int, progress: Float) {}
 
     override fun onTransitionCompleted(motionLayout: MotionLayout, currentId: Int) {
         Log.i("PokemonDetail", "onTransitionCompleted()")
@@ -238,5 +274,17 @@ class PokemonDetailActivity : AppCompatActivity(), MotionLayout.TransitionListen
             sceneView.visibility = View.VISIBLE
         }
     }
+
+    /** Scale Gesture Listener **/
+    override fun onScale(detector: ScaleGestureDetector): Boolean {
+        scaleFactor *= detector.scaleFactor
+        scaleFactor = max(0.1f, min(scaleFactor, 3.5f))
+        Log.i("PokemonDetail", "onScale -> ${scaleFactor}")
+        resizeModel(scaleFactor)
+        return true
+    }
+
+    override fun onScaleBegin(detector: ScaleGestureDetector?): Boolean {return true}
+    override fun onScaleEnd(detector: ScaleGestureDetector?) {}
 
 }
