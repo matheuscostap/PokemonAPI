@@ -160,7 +160,6 @@ class PokemonDetailActivity : AppCompatActivity(), MotionLayout.TransitionListen
         pokeNode.apply {
             setParent(sceneView.scene)
             localPosition = Vector3(0f,0f,-1f)
-            worldPosition = Vector3(0f,0f,0f)
             name = pokeInfo.name
             this.renderable = renderable
         }
