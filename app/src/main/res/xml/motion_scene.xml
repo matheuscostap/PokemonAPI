@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        motion:constraintSetStart="@layout/content_pokemon_detail"
+        motion:constraintSetEnd="@layout/content_pokemon_detail_3d"
+        motion:duration="250">
+
+        <OnClick
+            motion:mode="toggle"
+            motion:target="@+id/fab3D"/>
+
+    </Transition>
+
+</MotionScene>

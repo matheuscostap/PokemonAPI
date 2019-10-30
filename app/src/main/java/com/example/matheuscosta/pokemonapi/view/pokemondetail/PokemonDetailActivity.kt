@@ -62,6 +62,7 @@ class PokemonDetailActivity : AppCompatActivity() {
         Picasso.get().load(pokeInfo.imageURL).resize(150,150).into(ivPokemon)
         tvPokeName.text = pokeInfo.name.capitalize()
         //sceneView.visibility = View.GONE
+        sceneView.setBackgroundColor(type.getTypeColor(applicationContext))
 
         //Lista e adapter
         adapter = MoveListAdapter(this, moves)

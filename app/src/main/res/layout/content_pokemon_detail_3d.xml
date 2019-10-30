@@ -8,16 +8,13 @@
     android:background="@color/white"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".view.pokemondetail.PokemonDetailActivity"
-    tools:showIn="@layout/activity_pokemon_detail"
-    app:layoutDescription="@xml/motion_scene"
     android:id="@+id/detailsBackground">
 
     <com.google.ar.sceneform.SceneView
-        android:visibility="gone"
         android:id="@+id/sceneView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,14 +22,14 @@
     <View
         android:id="@+id/view"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="60dp"
         android:background="@drawable/radius"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivPokemon" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
+        android:visibility="gone"
         android:id="@+id/ivPokemon"
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -54,20 +51,21 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
-        android:textColor="@color/grey"
         android:id="@+id/tvPokeName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
+        android:textColor="@color/grey"
         android:textSize="20sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/view" />
 
     <TextView
+        android:visibility="gone"
         android:textAllCaps="true"
         android:id="@+id/tvPokeType1"
         android:layout_width="80dp"
@@ -84,6 +82,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvPokeName" />
 
     <TextView
+        android:visibility="gone"
         android:textAllCaps="true"
         android:id="@+id/tvPokeType2"
         android:layout_width="80dp"
@@ -99,6 +98,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvPokeName" />
 
     <TextView
+        android:visibility="gone"
         android:textColor="@color/grey"
         android:textStyle="bold"
         android:id="@+id/textView6"
@@ -112,6 +112,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvPokeType1" />
 
     <TextView
+        android:visibility="gone"
         android:textColor="@color/grey"
         android:textStyle="bold"
         android:id="@+id/textView7"
@@ -125,6 +126,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvPokeType1" />
 
     <TextView
+        android:visibility="gone"
         android:textColor="@color/grey"
         android:id="@+id/tvPokeHeight"
         android:layout_width="wrap_content"
@@ -135,6 +137,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
     <TextView
+        android:visibility="gone"
         android:textColor="@color/grey"
         android:id="@+id/tvPokeWeight"
         android:layout_width="wrap_content"
@@ -145,6 +148,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <TextView
+        android:visibility="gone"
         android:textColor="@color/grey"
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -159,6 +163,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvPokeHeight" />
 
     <android.support.v7.widget.RecyclerView
+        android:visibility="gone"
         android:id="@+id/recyclerViewSkills"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -219,5 +224,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
 </android.support.constraint.motion.MotionLayout>
