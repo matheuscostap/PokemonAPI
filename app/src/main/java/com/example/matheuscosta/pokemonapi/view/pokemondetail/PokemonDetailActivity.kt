@@ -23,6 +23,7 @@ import com.example.matheuscosta.pokemonapi.model.pokemon.PokemonApiInfo
 import com.example.matheuscosta.pokemonapi.model.type.Type
 import com.example.matheuscosta.pokemonapi.repository.PokeClient
 import com.example.matheuscosta.pokemonapi.repository.PokeRepositoryImpl
+import com.example.matheuscosta.pokemonapi.util.RotationUtil
 import com.google.ar.sceneform.Node
 import com.google.ar.sceneform.assets.RenderableSource
 import com.google.ar.sceneform.math.Quaternion
@@ -49,6 +50,10 @@ class PokemonDetailActivity : AppCompatActivity(), MotionLayout.TransitionListen
     private val rotateQuatX = Quaternion.axisAngle(Vector3(0f,0f,0f),0f)
     private lateinit var gestureDetector: ScaleGestureDetector
     private var scaleFactor = 1f
+    private var lastX = 0f
+    private var lastY = 0f
+    private var finalXAux = 0f
+    private var finalYAux = 0f
 
 
 
@@ -100,6 +105,15 @@ class PokemonDetailActivity : AppCompatActivity(), MotionLayout.TransitionListen
 
             if(event.action == MotionEvent.ACTION_MOVE){
                 rotateModel(event.x, event.y)
+            }
+
+
+            if(event.action == MotionEvent.ACTION_UP){
+                /*Log.i("PokemonDetail", "***********************************************************")
+                Log.i("PokemonDetail", "RELEASE")
+                Log.i("PokemonDetail", "***********************************************************")*/
+                lastX = 0f
+                lastY = 0f
             }
 
             false
@@ -169,8 +183,32 @@ class PokemonDetailActivity : AppCompatActivity(), MotionLayout.TransitionListen
 
 
     private fun rotateModel(x: Float, y: Float){
-        rotateQuatX.set(Vector3(1f,0f,0f),y)
-        rotateQuatY.set(Vector3(0f,1f,0f),x)
+        var dragDiffX = 0f
+        var dragDiffY = 0f
+
+        if (lastX != 0f && lastY != 0f){
+            dragDiffX = x - lastX
+            dragDiffY = y - lastY
+
+            val finalX = finalXAux + dragDiffX
+            val finalY = finalYAux + dragDiffY
+
+            finalXAux = finalX
+            finalYAux = finalY
+
+            rotateQuatX.set(Vector3(1f,0f,0f),finalY)
+            rotateQuatY.set(Vector3(0f,1f,0f),finalX)
+
+            /*Log.i("PokemonDetail", "***********************************************************")
+            Log.i("PokemonDetail", "dragDiffX - > $dragDiffX")
+            Log.i("PokemonDetail", "dragDiffY - > $dragDiffY")
+            Log.i("PokemonDetail", "finalX - > $finalX")
+            Log.i("PokemonDetail", "finalY - > $finalY")
+            Log.i("PokemonDetail", "***********************************************************")*/
+        }
+
+        lastX = x
+        lastY = y
 
         val finalRotate = Quaternion.multiply(rotateQuatY, rotateQuatX)
 
