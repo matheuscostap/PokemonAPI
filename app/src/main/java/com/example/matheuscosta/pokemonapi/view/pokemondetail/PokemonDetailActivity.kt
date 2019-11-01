@@ -54,6 +54,7 @@ class PokemonDetailActivity : AppCompatActivity(), MotionLayout.TransitionListen
     private var lastY = 0f
     private var finalXAux = 0f
     private var finalYAux = 0f
+    private var pinchZoom = false
 
 
 
@@ -103,17 +104,18 @@ class PokemonDetailActivity : AppCompatActivity(), MotionLayout.TransitionListen
 
             gestureDetector.onTouchEvent(event)
 
-            if(event.action == MotionEvent.ACTION_MOVE){
-                rotateModel(event.x, event.y)
-            }
+            if (!pinchZoom){
+                if(event.action == MotionEvent.ACTION_MOVE){
+                    rotateModel(event.x, event.y)
+                }
 
-
-            if(event.action == MotionEvent.ACTION_UP){
-                /*Log.i("PokemonDetail", "***********************************************************")
-                Log.i("PokemonDetail", "RELEASE")
-                Log.i("PokemonDetail", "***********************************************************")*/
-                lastX = 0f
-                lastY = 0f
+                if(event.action == MotionEvent.ACTION_UP){
+                    /*Log.i("PokemonDetail", "***********************************************************")
+                    Log.i("PokemonDetail", "RELEASE")
+                    Log.i("PokemonDetail", "***********************************************************")*/
+                    lastX = 0f
+                    lastY = 0f
+                }
             }
 
             false
@@ -321,7 +323,12 @@ class PokemonDetailActivity : AppCompatActivity(), MotionLayout.TransitionListen
         return true
     }
 
-    override fun onScaleBegin(detector: ScaleGestureDetector?): Boolean {return true}
-    override fun onScaleEnd(detector: ScaleGestureDetector?) {}
+    override fun onScaleBegin(detector: ScaleGestureDetector?): Boolean {
+        pinchZoom = true
+        return true
+    }
+    override fun onScaleEnd(detector: ScaleGestureDetector?) {
+        pinchZoom = false
+    }
 
 }
