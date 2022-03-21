@@ -1,28 +1,17 @@
 package com.example.matheuscosta.pokemonapi.view.pokemondetail
 
-import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.graphics.PorterDuff
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.support.constraint.motion.MotionLayout
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import com.example.matheuscosta.pokemonapi.R
-import com.squareup.picasso.Picasso
 
 import kotlinx.android.synthetic.main.activity_pokemon_detail.*
-import android.support.v7.widget.DividerItemDecoration
 import android.view.*
-import com.example.matheuscosta.pokemonapi.model.*
-import com.example.matheuscosta.pokemonapi.model.move.Move
-import com.example.matheuscosta.pokemonapi.model.pokemon.Pokemon
-import com.example.matheuscosta.pokemonapi.model.pokemon.PokemonApiInfo
-import com.example.matheuscosta.pokemonapi.model.type.Type
-import com.example.matheuscosta.pokemonapi.repository.PokeClient
-import com.example.matheuscosta.pokemonapi.repository.PokeRepositoryImpl
+import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.motion.widget.MotionLayout
 import com.example.matheuscosta.pokemonapi.util.RotationUtil
 import com.google.ar.sceneform.Node
 import com.google.ar.sceneform.assets.RenderableSource
@@ -37,12 +26,6 @@ import kotlin.math.min
 
 class PokemonDetailActivity : AppCompatActivity(), MotionLayout.TransitionListener, ScaleGestureDetector.OnScaleGestureListener {
 
-    private var pokemon : Pokemon? = null
-    private val viewModel = PokemonDetailViewModel(PokeRepositoryImpl(PokeClient.createClient()))
-    lateinit var pokeInfo : PokemonApiInfo
-    lateinit var type : Type
-    lateinit var adapter : MoveListAdapter
-    var moves = arrayListOf<Move>()
     private val poke3DModelURL = "https://raw.githubusercontent.com/matheuscostap/GLTFModels/master/pokemons/pokeId/model.gltf"
     private var model3DOpen = false
     private val pokeNode = Node()
@@ -61,6 +44,7 @@ class PokemonDetailActivity : AppCompatActivity(), MotionLayout.TransitionListen
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        /**
         //Extras
         pokeInfo = intent.extras.getSerializable("pokeinfo") as PokemonApiInfo
         type = intent.extras.getSerializable("type") as Type
@@ -119,35 +103,10 @@ class PokemonDetailActivity : AppCompatActivity(), MotionLayout.TransitionListen
             }
 
             false
-        }
+        }**/
     }
 
-
-    private fun observeVM(){
-        viewModel.event.observe(this, Observer { event ->
-            when(event?.status){
-                NetworkStatus.LOADING -> {
-                    //progressBar.visibility = View.VISIBLE
-                }
-
-                NetworkStatus.SUCCESS -> {
-                    progressBar.visibility = View.GONE
-                    event.obj?.let {
-                        Log.i("PokemonDetail","Pokemon -> $it")
-                        this.pokemon = it
-                        showInfos()
-                    }
-                }
-
-                NetworkStatus.ERROR -> {
-
-                }
-            }
-        })
-    }
-
-
-    private fun getPokemon3DModel(){
+    /*private fun getPokemon3DModel(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             val url = poke3DModelURL.replace("pokeId",pokeInfo.number)
 
@@ -168,10 +127,10 @@ class PokemonDetailActivity : AppCompatActivity(), MotionLayout.TransitionListen
 
                 }*/
         }
-    }
+    }*/
 
 
-    private fun add3dModel(renderable: ModelRenderable){
+    /*private fun add3dModel(renderable: ModelRenderable){
         Log.i("PokemonDetail","add3DModel()")
         pokeNode.apply {
             setParent(sceneView.scene)
@@ -181,7 +140,7 @@ class PokemonDetailActivity : AppCompatActivity(), MotionLayout.TransitionListen
         }
 
         sceneView.scene.addChild(pokeNode)
-    }
+    }*/
 
 
     private fun rotateModel(x: Float, y: Float){
@@ -223,6 +182,7 @@ class PokemonDetailActivity : AppCompatActivity(), MotionLayout.TransitionListen
     }
 
 
+    /*
     private fun showInfos(){
         pokemon?.let {
             tvPokeHeight.text = "${it.height * 10}cm"
@@ -244,10 +204,10 @@ class PokemonDetailActivity : AppCompatActivity(), MotionLayout.TransitionListen
 
             getPokemon3DModel()
         }
-    }
+    }*/
 
 
-    fun shareContent(){
+    /*fun shareContent(){
         pokemon?.let {
             //Formata a string com as informacoes
             var content = pokemon?.name
@@ -265,7 +225,7 @@ class PokemonDetailActivity : AppCompatActivity(), MotionLayout.TransitionListen
                 content += "\n${move.name}"
             }
 
-            Log.i("Details",content)
+            Log.i("Details",content ?: "")
 
             //Abre o dialog para selecionar o app
             val intent = Intent()
@@ -274,7 +234,7 @@ class PokemonDetailActivity : AppCompatActivity(), MotionLayout.TransitionListen
             intent.type = "text/plain"
             startActivity(Intent.createChooser(intent, "Compartilhar"))
         }
-    }
+    }*/
 
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -283,11 +243,11 @@ class PokemonDetailActivity : AppCompatActivity(), MotionLayout.TransitionListen
     }
 
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item?.itemId
 
         when(id){
-            R.id.action_share -> shareContent()
+            //R.id.action_share -> shareContent()
         }
 
         return super.onOptionsItemSelected(item)
@@ -303,6 +263,9 @@ class PokemonDetailActivity : AppCompatActivity(), MotionLayout.TransitionListen
         sceneView.resume()
     }
 
+    override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
+    }
+
     /** Motion Layout Transitions Listener **/
     override fun onTransitionChange(motionLayout: MotionLayout, startId: Int, endId: Int, progress: Float) {}
 
@@ -312,6 +275,9 @@ class PokemonDetailActivity : AppCompatActivity(), MotionLayout.TransitionListen
             Log.i("PokemonDetail", "model3DOPen == true")
             sceneView.visibility = View.VISIBLE
         }
+    }
+
+    override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {
     }
 
     /** Scale Gesture Listener **/

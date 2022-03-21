@@ -8,8 +8,8 @@
         motion:duration="250">
 
         <OnClick
-            motion:mode="toggle"
-            motion:target="@+id/fab3D"/>
+            motion:clickAction="toggle"
+            motion:motionTarget="@+id/fab3D"/>
 
     </Transition>
 

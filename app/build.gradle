@@ -1,18 +1,27 @@
-apply plugin: 'com.android.application'
-
-apply plugin: 'kotlin-android'
-
-apply plugin: 'kotlin-android-extensions'
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+    id 'kotlin-android-extensions'
+}
 
 android {
-    compileSdkVersion 28
+    def appSettings = rootProject.extensions.getByName("ext")
+
+    compileSdk appSettings["compileSdk"]
+
     defaultConfig {
         applicationId "com.example.matheuscosta.pokemonapi"
-        minSdkVersion 23
-        targetSdkVersion 28
+        minSdk appSettings["minSdk"]
+        targetSdk appSettings["targetSdk"]
         versionCode 1
         versionName "1.0"
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
     }
     buildTypes {
         release {
@@ -28,25 +37,34 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'com.android.support.constraint:constraint-layout:2.0.0-alpha2'
-    implementation 'com.android.support:design:28.0.0'
+    implementation project(':domain')
+    implementation project(':data')
 
-    //implementation 'com.squareup.okhttp3:okhttp:3.12.1'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
-    implementation 'com.squareup.picasso:picasso:2.71828'
-    implementation "android.arch.lifecycle:extensions:1.1.1"
-    implementation 'com.squareup.retrofit2:retrofit:2.6.0'
-    implementation "com.squareup.retrofit2:converter-gson:2.5.0"
-    implementation 'com.google.code.gson:gson:2.8.2'
-    implementation "com.google.ar.sceneform.ux:sceneform-ux:1.13.0"
-    implementation 'com.google.ar.sceneform:assets:1.13.0'
-    implementation 'com.google.ar.sceneform:core:1.13.0'
+    def dependencies = rootProject.ext.dependencies
+
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
+
+    implementation dependencies.ktx
+    implementation dependencies.activity_ktx
+    implementation dependencies.appcompat
+    implementation dependencies.material
+    implementation dependencies.constraintLayout
+    testImplementation dependencies.junit
+    androidTestImplementation dependencies.android_junit
+    androidTestImplementation dependencies.espresso
+
+    implementation dependencies.hilt
+    kapt dependencies.hilt_kapt
+
+    implementation dependencies.coil
+
+    implementation dependencies.viewmodel
+    implementation dependencies.arch_extensions
+    implementation dependencies.arch_extensions_annotations
+
+    implementation dependencies.sceneform_base
+    implementation dependencies.sceneform_assets
+    implementation dependencies.sceneform_core
 
 
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }

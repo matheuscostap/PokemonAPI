@@ -1,18 +1,21 @@
 package com.example.matheuscosta.pokemonapi.view.mainactivity
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
-import com.example.matheuscosta.pokemonapi.model.AbstractModel
-import com.example.matheuscosta.pokemonapi.model.type.Type
-import com.example.matheuscosta.pokemonapi.repository.PokeRepository
 
-class MainActivityViewModel (private val repository: PokeRepository): ViewModel(){
+import com.costa.matheus.domain.entities.Type
+import com.costa.matheus.domain.usecases.GetTypesUseCase
+import com.example.matheuscosta.pokemonapi.base.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-    val event = MutableLiveData<AbstractModel<List<Type>>>()
+@HiltViewModel
+class MainActivityViewModel @Inject constructor(
+    private val useCase: GetTypesUseCase
+): BaseViewModel(){
 
-    fun getTypes(){
-        repository.getTypes {types ->
-            event.value = types.value
-        }
+
+    suspend fun getTypes(): List<Type> {
+        return useCase.execute().await()
     }
+
+
 }

@@ -1,0 +1,61 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+    id 'kotlin-android-extensions'
+}
+
+android {
+    def appSettings = rootProject.extensions.getByName("ext")
+
+    compileSdk appSettings["compileSdk"]
+
+    defaultConfig {
+        minSdk appSettings["minSdk"]
+        targetSdk appSettings["targetSdk"]
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+
+    implementation project(':domain')
+    def dependencies = rootProject.ext.dependencies
+
+    implementation dependencies.ktx
+    implementation dependencies.appcompat
+    implementation dependencies.material
+    implementation dependencies.constraintLayout
+    testImplementation dependencies.junit
+    androidTestImplementation dependencies.android_junit
+    androidTestImplementation dependencies.espresso
+
+    implementation dependencies.hilt
+    kapt dependencies.hilt_kapt
+
+    implementation dependencies.coroutines_core
+    implementation dependencies.coroutines_android
+    implementation dependencies.retrofit
+    implementation dependencies.retrofit_gson
+    implementation dependencies.retrofit_adapter
+    implementation dependencies.okhttp
+    implementation dependencies.okhttp_logging
+    implementation dependencies.gson
+}
