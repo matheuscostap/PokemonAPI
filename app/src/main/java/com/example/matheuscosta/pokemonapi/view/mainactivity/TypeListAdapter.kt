@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.costa.matheus.domain.entities.Type
+import com.example.matheuscosta.pokemonapi.util.TypeColorResolver
 
 class TypeListAdapter(
     private val items: List<Type>,
@@ -25,7 +26,11 @@ class TypeListAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binding.tvType.text = items[position].name
+        val type = items[position]
+        holder.binding.tvType.text = type.name
+        holder.binding.typeBackground.setBackgroundColor(
+            TypeColorResolver.getTypeColor(holder.itemView.context, type)
+        )
     }
 
     override fun getItemCount(): Int {
