@@ -45,6 +45,13 @@ ext {
     //Sceneform
     sceneform = "1.13.0"
 
+    //MockK
+    mockk = "1.12.3"
+
+    //Coroutines Test
+    coroutines_test = "1.6.1"
+
+
 
     dependencies = [
             activity_ktx: "androidx.activity:activity-ktx:$activity_version",
@@ -72,6 +79,9 @@ ext {
             coil: "io.coil-kt:coil:$coil_version",
             sceneform_base: "com.google.ar.sceneform.ux:sceneform-ux:$sceneform",
             sceneform_assets: "com.google.ar.sceneform:assets:$sceneform",
-            sceneform_core: "com.google.ar.sceneform:core:$sceneform"
+            sceneform_core: "com.google.ar.sceneform:core:$sceneform",
+            mockk_unit: "io.mockk:mockk:$mockk",
+            mockk_unit_agent: "io.mockk:mockk-agent-jvm:$mockk",
+            coroutines_test: "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_test",
     ]
 }

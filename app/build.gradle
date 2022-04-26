@@ -55,6 +55,11 @@ dependencies {
     androidTestImplementation dependencies.android_junit
     androidTestImplementation dependencies.espresso
 
+    testImplementation dependencies.mockk_unit
+    testImplementation dependencies.mockk_unit_agent
+
+    testImplementation dependencies.coroutines_test
+
     implementation dependencies.hilt
     kapt dependencies.hilt_kapt
 
