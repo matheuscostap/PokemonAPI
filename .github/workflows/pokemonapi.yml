@@ -11,6 +11,7 @@ jobs:
     - name: Setup Java JDK
       uses: actions/setup-java@v3.2.0
       with:
-        java-version: 1.8
+        distribution: microsoft
+        java-version: 11
     - name: Run tests
       run: ./gradlew testDebugUnitTest --info
