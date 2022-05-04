@@ -14,5 +14,6 @@ jobs:
         distribution: temurin
         java-version: 11
     - name: Run tests
-      run: ./gradlew --version 
-           ./gradlew testDebugUnitTest --info
+      run: |
+        ./gradlew --version 
+        ./gradlew testDebugUnitTest --info
