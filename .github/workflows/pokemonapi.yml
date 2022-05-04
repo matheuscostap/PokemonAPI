@@ -12,6 +12,8 @@ jobs:
       uses: actions/setup-java@v3.2.0
       with:
         distribution: temurin
-        java-version: 8
+        java-version: 11
     - name: Run tests
-      run: ./gradlew testDebugUnitTest --info
+      run: |
+        ./gradlew --version 
+        ./gradlew testDebugUnitTest --info
