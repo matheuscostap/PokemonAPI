@@ -25,7 +25,7 @@ class TypeMapperTest {
         Assert.assertEquals(modelList.size, result.size)
 
         result.forEachIndexed { index, type ->
-            Assert.assertEquals(modelList[index].typeId, 2000)
+            Assert.assertEquals(modelList[index].typeId, type.typeId)
             Assert.assertEquals(modelList[index].name, type.name)
             Assert.assertEquals(modelList[index].url, type.url)
         }
