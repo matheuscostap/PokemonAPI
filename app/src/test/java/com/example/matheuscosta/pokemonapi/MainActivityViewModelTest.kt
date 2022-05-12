@@ -32,7 +32,7 @@ class MainActivityViewModelTest {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        viewModel = MainActivityViewModel(useCase)
+        viewModel = MainActivityViewModel(useCase, StandardTestDispatcher())
     }
 
     @Test
